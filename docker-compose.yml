@@ -1,0 +1,27 @@
+version: '3.1'
+
+services:
+  backend:
+    build: .
+    restart: always
+    ports:
+      - 8082:8099
+
+  pg:
+    image: postgres
+    volumes:
+      # Run all sql files in database dir
+      - ./database:/docker-entrypoint-initdb.d
+    restart: always
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: user
+      POSTGRES_DB: hibertest
+    ports:
+      - 5432:5432
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - 8081:8080
